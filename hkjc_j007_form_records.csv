@@ -1,0 +1,15 @@
+﻿horse_id,season,race_index,placing,date,racecourse_raw,racecourse,track,course,distance,going,race_class,draw,rating,trainer,jockey,lbw,win_odds,actual_wt,running_position,finish_time,decl_horse_wt,gear,replay_url
+HK_2023_J007,24/25 馬季,448,02,23/02/25,"沙田草地""A""",沙田,草地,A,1000,,,4,83,容天鵬,艾兆禮,,,,,,,CP/TT,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2025/02/23&Racecourse=ST&RaceNo=2
+HK_2023_J007,24/25 馬季,324,09,05/01/25,"沙田草地""C+3""",沙田,草地,C+3,1200,,,7,84,容天鵬,蔡明紹,,,,,,,CP/TT,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2025/01/05&Racecourse=ST&RaceNo=7
+HK_2023_J007,24/25 馬季,265,03,15/12/24,"沙田草地""C+3""",沙田,草地,C+3,1000,,,7,84,容天鵬,周俊樂,,,,,,,CP/TT,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2024/12/15&Racecourse=ST&RaceNo=7
+HK_2023_J007,24/25 馬季,200,11,20/11/24,"跑馬地草地""C""",跑馬地,草地,C,1200,,,12,84,容天鵬,周俊樂,,,,,,,CP/TT1,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2024/11/20&Racecourse=HV&RaceNo=8
+HK_2023_J007,23/24 馬季,822,07,14/07/24,"沙田草地""A""",沙田,草地,A,1200,,,4,84,容天鵬,周俊樂,,,,,,,CP,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2024/07/14&Racecourse=ST&RaceNo=2
+HK_2023_J007,23/24 馬季,771,01,23/06/24,"沙田草地""A""",沙田,草地,A,1200,,,12,76,容天鵬,周俊樂,,,,,,,CP,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2024/06/23&Racecourse=ST&RaceNo=10
+HK_2023_J007,23/24 馬季,717,06,02/06/24,"沙田草地""B""",沙田,草地,B,1200,,,7,76,容天鵬,周俊樂,,,,,,,CP1,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2024/06/02&Racecourse=ST&RaceNo=6
+HK_2023_J007,23/24 馬季,626,02,28/04/24,"沙田草地""A""",沙田,草地,A,1200,,,8,75,容天鵬,周俊樂,,,,,,,--,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2024/04/28&Racecourse=ST&RaceNo=10
+HK_2023_J007,23/24 馬季,550,01,31/03/24,"沙田草地""A+3""",沙田,草地,A+3,1200,,,1,68,容天鵬,周俊樂,,,,,,,--,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2024/03/31&Racecourse=ST&RaceNo=10
+HK_2023_J007,23/24 馬季,491,02,10/03/24,"沙田草地""C""",沙田,草地,C,1000,,,11,66,容天鵬,周俊樂,,,,,,,--,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2024/03/10&Racecourse=ST&RaceNo=8
+HK_2023_J007,23/24 馬季,430,01,18/02/24,"沙田草地""C+3""",沙田,草地,C+3,1200,,,2,60,容天鵬,周俊樂,,,,,,,--,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2024/02/18&Racecourse=ST&RaceNo=4
+HK_2023_J007,23/24 馬季,336,03,13/01/24,"沙田草地""C+3""",沙田,草地,C+3,1000,,,6,60,容天鵬,黃智弘,,,,,,,--,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2024/01/13&Racecourse=ST&RaceNo=4
+HK_2023_J007,23/24 馬季,253,01,17/12/23,"沙田草地""B""",沙田,草地,B,1000,,,7,52,容天鵬,周俊樂,,,,,,,--,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2023/12/17&Racecourse=ST&RaceNo=3
+HK_2023_J007,23/24 馬季,157,04,11/11/23,"沙田草地""A+3""",沙田,草地,A+3,1200,,,7,52,容天鵬,梁家俊,,,,,,,--,https://racing.hkjc.com/zh-hk/local/information/localresults?racedate=2023/11/11&Racecourse=ST&RaceNo=1

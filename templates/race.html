@@ -35,9 +35,9 @@
                         <tr>
                             <td class="wrap">
                                 <a href="#"
-                                    onclick="loadHorseInTopbar('{{ horse.official_link or "" }}', '{{ horse.name|e }}', '{{ horse.trainer|e }}'); return false;"
-                                    style="color: var(--gold-bright); font-weight: 600; text-decoration: none;"
-                                    title="查看 {{ horse.name }} 詳情（{{ horse.trainer }}）">
+                                   onclick="loadHorseInTopbar('{{ horse.official_link or "" }}', '{{ horse.name|e }}', '{{ horse.trainer|e }}', '{{ horse.horse_id|e }}'); return false;"
+                                   style="color: var(--gold-bright); font-weight: 600; text-decoration: none;"
+                                   title="查看 {{ horse.name }} 詳情（{{ horse.trainer }}）">
                                     {{ horse.name }} 🐎
                                 </a>
                             </td>
@@ -58,19 +58,16 @@
                             <td class="wrap">{{ horse.dam or '-' }}</td>
                             <td>{{ horse.import_type or '-' }}</td>
                         </tr>
-                        </tr>
                         {% endfor %}
                         {% else %}
                         <tr>
-                            <td colspan="8" class="detail-empty">No race horses available.</td>
+                            <td colspan="17" class="detail-empty">No race horses available.</td>
                         </tr>
                         {% endif %}
                     </tbody>
                 </table>
             </div>
         </section>
-
-
 
         <section class="quad quad-race-detail">
             <div class="panel-title">賽事基本資料</div>
@@ -102,11 +99,49 @@
                 <div id="topbar-horse-info" style="padding:20px; color:#666;">
                     點擊排位表馬名查看詳情
                 </div>
+
                 <div id="topbar-horse-summary" style="padding:20px; white-space:pre-wrap; color:#ddd; display:none;">
+                </div>
+
+                <div id="horse-history-container" style="display:none; padding:20px;">
+                    <div style="margin-bottom:10px; color:#ddd; font-weight:600;">
+                        馬匹比賽成績
+                    </div>
+                    <div class="table-wrap">
+                        <table class="race-table" id="horse-history-table">
+                            <thead>
+                                <tr>
+                                    <th>季節</th>
+                                    <th>場次</th>
+                                    <th>名次</th>
+                                    <th>日期</th>
+                                    <th>馬場/跑道/賽道</th>
+                                    <th>途程</th>
+                                    <th>場地狀況</th>
+                                    <th>賽事班次</th>
+                                    <th>檔位</th>
+                                    <th>評分</th>
+                                    <th>練馬師</th>
+                                    <th>騎師</th>
+                                    <th>頭馬距離</th>
+                                    <th>獨贏賠率</th>
+                                    <th>實際負磅</th>
+                                    <th>沿途走位</th>
+                                    <th>完成時間</th>
+                                    <th>排位體重</th>
+                                    <th>配備</th>
+                                </tr>
+                            </thead>
+                            <tbody id="horse-history-tbody">
+                                <tr>
+                                    <td colspan="19" class="detail-empty">點擊馬名後載入比賽成績</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
-
 
         <section class="quad quad-topbar-detail" id="quad-topbar-detail">
             <div class="panel-title">馬匹摘要預覽</div>
@@ -122,9 +157,16 @@
 </div>
 
 <script>
-    async function loadHorseInTopbar(horse_link, horse_name, trainer) {
-        console.log('horse_link =', horse_link, 'horse_name =', horse_name, 'trainer =', trainer);
+    function escHtml(v) {
+        return String(v ?? "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#39;");
+    }
 
+    async function loadHorseInTopbar(horse_link, horse_name, trainer, horse_id) {
         if (!horse_link) {
             alert('horse_link is EMPTY');
             return;
@@ -135,6 +177,8 @@
         const bodyEl = document.getElementById('horse-detail-body');
         const infoEl = document.getElementById('topbar-horse-info');
         const summaryEl = document.getElementById('topbar-horse-summary');
+        const historyContainer = document.getElementById('horse-history-container');
+        const historyBody = document.getElementById('horse-history-tbody');
 
         titleEl.textContent = `🐎 ${horse_name}`;
         metaEl.textContent = `來源: ${horse_link} | 練馬師: ${trainer || '-'}`;
@@ -143,6 +187,9 @@
         infoEl.style.display = 'none';
         summaryEl.style.display = 'block';
         summaryEl.textContent = '載入中...';
+
+        historyContainer.style.display = 'block';
+        historyBody.innerHTML = `<tr><td colspan="19" class="detail-empty">載入比賽成績中...</td></tr>`;
 
         try {
             const res = await fetch(`/api/horse-detail?url=${encodeURIComponent(horse_link)}`);
@@ -161,6 +208,41 @@
             const errText = '載入失敗：' + err.message;
             bodyEl.textContent = errText;
             summaryEl.textContent = errText;
+        }
+
+        try {
+            const res2 = await fetch(`/api/horse-history?horse_id=${encodeURIComponent(horse_id)}`);
+            const data2 = await res2.json();
+
+            if (data2.ok && data2.rows && data2.rows.length) {
+                historyBody.innerHTML = data2.rows.map(r => `
+                    <tr>
+                        <td>${escHtml(r.season)}</td>
+                        <td>${escHtml(r.race_index)}</td>
+                        <td>${escHtml(r.placing)}</td>
+                        <td>${escHtml(r.date)}</td>
+                        <td>${escHtml(r.racecourse_raw || r.racecourse || '')}</td>
+                        <td>${escHtml(r.distance)}</td>
+                        <td>${escHtml(r.going)}</td>
+                        <td>${escHtml(r.race_class)}</td>
+                        <td>${escHtml(r.draw)}</td>
+                        <td>${escHtml(r.rating)}</td>
+                        <td>${escHtml(r.trainer)}</td>
+                        <td>${escHtml(r.jockey)}</td>
+                        <td>${escHtml(r.lbw)}</td>
+                        <td>${escHtml(r.win_odds)}</td>
+                        <td>${escHtml(r.actual_wt)}</td>
+                        <td>${escHtml(r.running_position)}</td>
+                        <td>${escHtml(r.finish_time)}</td>
+                        <td>${escHtml(r.decl_horse_wt)}</td>
+                        <td>${escHtml(r.gear)}</td>
+                    </tr>
+                `).join('');
+            } else {
+                historyBody.innerHTML = `<tr><td colspan="19" class="detail-empty">未有往績資料</td></tr>`;
+            }
+        } catch (err) {
+            historyBody.innerHTML = `<tr><td colspan="19" class="detail-empty">載入比賽成績失敗：${escHtml(err.message)}</td></tr>`;
         }
 
         document.getElementById('quad-topbar-detail').scrollIntoView({ behavior: 'smooth' });

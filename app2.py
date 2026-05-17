@@ -1244,8 +1244,67 @@ def save_horses(horses_list):
     logger.info(f"✅ 已儲存 {len(horses_list)} 匹馬到 {path}")
     return True
 
+@app.route("/race/<race_id>")
+def race_page(race_id):
+    race = get_race(race_id)
+    race_horses = get_race_horses(race_id)
 
+    horse_history_map = {}
+    for horse in race_horses:
+        horse_id = horse.get("horse_id")
+        horse_history_map[horse_id] = get_horse_history(horse_id)
 
+    return render_template(
+        "race.html",
+        race=race,
+        race_horses=race_horses,
+        horse_history_map=horse_history_map,
+        active_detail=None,
+        left_panel=None
+    )
+
+from flask import request, jsonify
+import pandas as pd
+import os
+
+HORSE_HISTORY_CSV = os.path.join(os.path.dirname(__file__), "hkjc_horse_history.csv")
+# 如果你之後改成總檔名，可以換成：
+# HORSE_HISTORY_CSV = os.path.join(os.path.dirname(__file__), "hkjc_horse_history.csv")
+
+def load_horse_history_df():
+    if not os.path.exists(HORSE_HISTORY_CSV):
+        return pd.DataFrame()
+    return pd.read_csv(HORSE_HISTORY_CSV, encoding="utf-8-sig")
+
+@app.route("/api/horse-history")
+def api_horse_history():
+    horse_id = request.args.get("horse_id", "").strip()
+    if not horse_id:
+        return jsonify({"ok": False, "error": "missing horse_id"}), 400
+
+    try:
+        df = load_horse_history_df()
+        if df.empty:
+            return jsonify({"ok": False, "error": "horse history csv not found or empty"}), 404
+
+        if "horse_id" not in df.columns:
+            return jsonify({"ok": False, "error": "csv missing horse_id column"}), 500
+
+        rows = df[df["horse_id"] == horse_id].copy()
+
+        if rows.empty:
+            return jsonify({"ok": True, "rows": []})
+
+        for col in rows.columns:
+            rows[col] = rows[col].fillna("").astype(str)
+
+        return jsonify({
+            "ok": True,
+            "rows": rows.to_dict(orient="records")
+        })
+
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
 
 
 if __name__ == "__main__":
