@@ -70,19 +70,10 @@
             </div>
         </section>
 
-        <section class="quad quad-topbar">
-            <div class="panel-title">馬匹詳情</div>
-            <div class="detail-list">
-                <div id="topbar-horse-info" style="padding:20px; color:#666;">
-                    點擊排位表馬名查看詳情
-                </div>
-                <div id="topbar-horse-summary" style="padding:20px; white-space:pre-wrap; color:#ddd; display:none;">
-                </div>
-            </div>
-        </section>
+
 
         <section class="quad quad-race-detail">
-            <div class="panel-title">Active detail of race list</div>
+            <div class="panel-title">賽事基本資料</div>
             {% if left_panel and left_panel.ok %}
             <div class="external-view">
                 <div class="external-title">{{ left_panel.title }}</div>
@@ -104,6 +95,18 @@
             </div>
             {% endif %}
         </section>
+
+        <section class="quad quad-topbar">
+            <div class="panel-title">馬匹詳情</div>
+            <div class="detail-list">
+                <div id="topbar-horse-info" style="padding:20px; color:#666;">
+                    點擊排位表馬名查看詳情
+                </div>
+                <div id="topbar-horse-summary" style="padding:20px; white-space:pre-wrap; color:#ddd; display:none;">
+                </div>
+            </div>
+        </section>
+
 
         <section class="quad quad-topbar-detail" id="quad-topbar-detail">
             <div class="panel-title">馬匹摘要預覽</div>

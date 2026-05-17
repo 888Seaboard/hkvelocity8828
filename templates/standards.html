@@ -89,12 +89,27 @@
     });
 
     function calculatePace() {
-        const dist = parseInt(document.getElementById('dist-select').value);
+        const dist = document.getElementById('dist-select').value;
         const cls = document.getElementById('class-select').value;
         const actualTime = document.getElementById('actual-time').value.trim();
 
-        const classMap = { "class1": "1", "class2": "2", "class3": "3", "class4": "4", "class5": "5" };
-        const stdTime = standardsData[dist_key]?.[classMap[cls]];
+        const classMap = {
+            class1: "1",
+            class2: "2",
+            class3: "3",
+            class4: "4",
+            class5: "5"
+        };
+
+        const stdTime = standardsData[dist]?.[classMap[cls]];
+
+        if (!stdTime || !actualTime) {
+            document.getElementById('pace-result').innerHTML = `
+            <div><span>請先選擇途程、班次並輸入時間</span></div>
+        `;
+            document.getElementById('pace-result').className = 'detail-row bad';
+            return;
+        }
 
         const rating = computePaceRating(stdTime, actualTime);
         const status = rating > 0 ? '🟢 快於標準' : '🔴 慢於標準';
@@ -114,8 +129,12 @@
     }
 
     function timeToSeconds(timeStr) {
-        const parts = timeStr.match(/(\d+):(\d+)\.(\d+)/) || [0, 0, 0, 0];
-        return parseInt(parts[1]) * 60 + parseInt(parts[2]) + parseInt(parts[3]) / 10;
+        const m = String(timeStr).trim().match(/^(\d+):(\d+)(?:\.(\d+))?$/);
+        if (!m) return NaN;
+        const min = parseInt(m[1], 10);
+        const sec = parseInt(m[2], 10);
+        const frac = m[3] ? parseFloat('0.' + m[3]) : 0;
+        return min * 60 + sec + frac;
     }
 </script>
 
